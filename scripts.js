@@ -1,10 +1,14 @@
-function Player(playerToken) {
-    const token = playerToken; 
-    const name = token === "X" ? "Player 1" : "Player 2";
+const gameDisplay = document.querySelector("#game-board");
+const newGameModal = document.querySelector("dialog");
+const startGameButton = document.querySelector("#activate-game");
 
-    const getToken = () => playerToken;
-    const promptTurn = () => console.log(`${name} will mark a space`);
-    const winningMessage = () => console.log(`${name} won the game!`);
+function Player(playerToken, playerName) {
+    const token = playerToken; 
+    const name = playerName;
+
+    const getToken = () => token;
+    const promptTurn = () => `${name} will mark a space`;
+    const winningMessage = () => `${name} won the game!`;
     return {getToken, promptTurn, winningMessage};
 };
 
@@ -24,7 +28,6 @@ const Gameboard = (function () {
 
     const dropToken = (row, column, player) => {
         if (board[row][column] !== ' ') {
-            console.log('invalid move');
             return false;
         }
         else {
@@ -40,15 +43,6 @@ const Gameboard = (function () {
                 board[i][j] = ' ';
             }
         }
-    };
-
-    const displayBoard = () => {
-        console.log(
-            `   
-            row 0: ${board[0][0]}  |  ${board[0][1]}  |  ${board[0][2]}
-            row 1: ${board[1][0]}  |  ${board[1][1]}  | ${board[1][2]}
-            row 2: ${board[2][0]}  |  ${board[2][1]}  | ${board[2][2]}`
-        );
     };
 
     const getWinner = () => {
@@ -84,22 +78,19 @@ const Gameboard = (function () {
         ) return 'O';
 
         return false;
-
     };
-    
 
-    return {dropToken, clearBoard, getBoard, displayBoard, getWinner};
+    return {dropToken, clearBoard, getBoard, getWinner};
 })();
 
-const GameController = (function () {
-    const player1 = Player('X');
-    const player2 = Player('O');
+const GameController = (function (player1Name,player2Name,rounds) {
+    const player1 = Player('X', player1Name);
+    const player2 = Player('O', player2Name);
+    const totalRounds = rounds;
     let turnPlayer = player1;
     let round = 1;
+    let turn = 1;
     let gameOver = false;
-
-    console.log('GAME START');
-    console.log('----------');
 
     const switchPlayer = () => {
         turnPlayer = turnPlayer === player1 ? player2 : player1;
@@ -107,13 +98,11 @@ const GameController = (function () {
     
     const playRound = (row, column) => {
         if (gameOver) {
-            console.log('Type GameController.restartGame() to play again!');
             return;
         }
 
         if(round > 9) {
             gameOver = true;
-            console.log("Game over! It's a tie.")
             return;
         }
 
@@ -126,19 +115,56 @@ const GameController = (function () {
             if (Gameboard.getWinner()) {
                 gameOver = true;
                 turnPlayer.winningMessage();
-                console.log('Type GameController.restartGame() to play again!');
                 return;
             }
             switchPlayer();
-            round++;
+            turn++;
         }
     };
 
     const restartGame = () => {
         Gameboard.clearBoard();
+        turn = 1;
         round = 1;
         gameOver = false;
     };
 
     return {playRound, restartGame};
 })();
+
+const GameDOMController = (function () {
+    const board = Gameboard.getBoard();
+
+    const displayBoard = () => {
+        let currentBoard = "";
+
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                currentBoard +=`<div class="game-cell" id="cell-${i}-${j}"><p class="player-token">${board[i][j]}</p></div>`;
+            }
+        }
+
+        gameDisplay.innerHTML = currentBoard;
+    };
+
+    const displayNewGameSettings = () => {newGameModal.showModal()};
+
+    startGameButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        displayBoard();
+        gameDisplay.classList.remove("inactive-game");
+        gameDisplay.classList.add("active-game");
+        newGameModal.close();
+    });
+
+    const displayNewGameScreen = () => {
+        gameDisplay.addEventListener("click", displayNewGameSettings);
+
+        
+    };
+
+    displayNewGameScreen();
+
+    return {displayBoard};
+})();
+

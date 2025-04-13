@@ -1,0 +1,71 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+::backdrop {
+    background-image: linear-gradient(
+        45deg,
+        magenta,
+        rebeccapurple,
+        dodgerblue,
+        green
+      );
+      opacity: 1;
+}
+
+dialog {
+    font-size: 1rem;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    width:600px;
+    height: 600px;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+#game-board {
+    width: 600px;
+    height: 600px;
+}
+
+.inactive-game {
+    background-color: rgb(233, 194, 194);
+    border: 5px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+}
+
+.inactive-game:hover {
+    background-color: rgb(204, 75, 75);
+    color: white;
+    cursor: pointer;
+}
+
+.active-game {
+    display: grid;
+    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+    gap: 5px;
+    background-color: black;
+}
+
+.game-cell {
+    background-color: white;
+    width: 196.67px;
+    height: 196.67px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-token {
+    color: black;
+    font-size: 150px;
+    font-family: 'Walter Turncoat', cursive;
+}

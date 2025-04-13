@@ -5,8 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic-Tac-Toe</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Walter+Turncoat&display=swap" rel="stylesheet">
 </head>
 <body>
+    <h1>Tic-Tac-Toe</h1>
+    <main id="game-board" class="inactive-game">
+        <p>Click to Start a New Game</p>
+    </main>
+
+    <dialog>
+        <h3>Game Settings</h3>
+        <form id="new-game-form">
+            <p>
+                <label for="player-1-name">Player 1:</label>
+                <input type="text" minlength="1" placeholder="Player 1's Name" id="player-1-name" name="player-1-name" required autofocus/>
+            </p>
+            <p>
+                <label for="player-2-name">Player 2:</label>
+                <input type="text" minlength="1" placeholder="Player 2's Name" id="player-2-name" name="player-2-name" required/>
+            </p>
+            <fieldset>
+                <legend>Game Length:</legend>
+                <input type="radio" name="rounds" id="one-round" value="1" checked>
+                <label for="one-round">1</label>
+                <input type="radio" name="rounds" id="three-rounds" value="3">
+                <label for="three-rounds">3</label>
+                <input type="radio" name="rounds" id="five-rounds" value="5">
+                <label for="five-rounds">5</label>
+            </fieldset>
+
+            <button id="activate-game">Start Game</buton>
+        </form>
+    </dialog>
     <script src="scripts.js"></script>
 </body>
 </html>
