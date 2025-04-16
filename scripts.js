@@ -66,12 +66,19 @@ const GameController = (function (player1Name,player2Name,rounds) {
     let turn = 1;
     let gameOver = false;
 
+    const getTurnPlayerToken = () => turnPlayer.getToken();
+
+    const switchPlayer = () => {
+        turnPlayer = turnPlayer === player1 ? player2 : player1;
+    };
+
     const dropToken = (row, column, player) => {
         const cell = board[row][column];
         if (cell.isEmpty) {
-            cell.updateToken(player.getToken());
+            cell.updateToken(getTurnPlayerToken());
             emptycells.splice(emptycells.indexOf(cell.location),1);
             GameDOMController.displayBoard();
+            switchPlayer();
             return true        
         }
         else {
@@ -115,9 +122,7 @@ const GameController = (function (player1Name,player2Name,rounds) {
     //     return false;
     // };
 
-    // const switchPlayer = () => {
-    //     turnPlayer = turnPlayer === player1 ? player2 : player1;
-    // };
+   
 
     const restartGame = () => {
         Gameboard.initializeBoard();
@@ -126,7 +131,7 @@ const GameController = (function (player1Name,player2Name,rounds) {
         gameOver = false;
     };
 
-    return {restartGame, turnPlayer, dropToken};
+    return {restartGame, getTurnPlayerToken, dropToken};
 })();
 
 const GameDOMController = (function () {
@@ -139,7 +144,7 @@ const GameDOMController = (function () {
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
                 const cell = board[i][j];
-                currentBoard +=`<div class="game-cell ${cell.isEmpty ? "clickable-cell" : ""}" id="cell-${i}-${j}" data-row="${i}" data-column="${j}"><p class="player-token">${cell.getToken()}</p></div>`;
+                currentBoard +=`<div class="game-cell" id="cell-${i}-${j}" data-row="${i}" data-column="${j}"><p class="player-token">${cell.getToken()}</p></div>`;
             }
         }
 
@@ -147,7 +152,8 @@ const GameDOMController = (function () {
 
         emptycells.forEach(cell => {
             const cellDOM = document.querySelector(`#${cell}`);
-            cellDOM.addEventListener('click', () => GameController.dropToken(cellDOM.dataset.row,cellDOM.dataset.column,GameController.turnPlayer));
+            cellDOM.classList.add('clickable-cell');
+            cellDOM.addEventListener('click', () => GameController.dropToken(cellDOM.dataset.row,cellDOM.dataset.column,GameController.getTurnPlayerToken()));
         });
     };
 
