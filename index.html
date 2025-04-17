@@ -11,12 +11,14 @@
 </head>
 <body>
     <h1>Tic-Tac-Toe</h1>
+    <div id="output" hidden></div>
     <main id="game-board" class="inactive-game">
         <p>Click to Start a New Game</p>
     </main>
 
     <dialog>
         <h3>Game Settings</h3>
+        <span hidden id="invalid-input">Please fill out the player name fields!</span>
         <form id="new-game-form">
             <p>
                 <label for="player-1-name">Player 1:</label>
