@@ -33,7 +33,7 @@ h1 {
     height: 600px;
 }
 
-.inactive-game {
+.start-game {
     background-color: rgb(233, 194, 194);
     border: 5px solid black;
     display: flex;
@@ -42,13 +42,13 @@ h1 {
     font-size: 3rem;
 }
 
-.inactive-game:hover {
+.start-game:hover {
     background-color: rgb(204, 75, 75);
     color: white;
     cursor: pointer;
 }
 
-.active-game {
+.game {
     display: grid;
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
     gap: 5px;
@@ -62,6 +62,10 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.inactive .game-cell {
+    background-color: grey;
 }
 
 .clickable-cell:hover {

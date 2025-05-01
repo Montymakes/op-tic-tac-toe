@@ -11,15 +11,18 @@ const output = document.querySelector('#output');
  * @param {string} playerName  Provided by user input
  * @returns 
  */
-function Player(playerToken, playerName) {
-    const token = playerToken; 
-    const name = playerName;
-
+function Player(token, name) {
+    token, name
+    let points = 0;
     const getToken = () => token;
     const getName = () => name;
     const promptTurn = () => `${name} will mark a space`;
-    const winningMessage = () => `${name} won the game!`;
-    return {getToken, getName, promptTurn, winningMessage};
+    const gameOverMessage = () => `${name} won the game!`;
+    const getPoints = () => points;
+    const resetPoints = () => points = 0;
+    const addPoint = () => point++;
+
+    return {getToken, getName, promptTurn, gameOverMessage, getPoints, resetPoints, addPoint};
 };
 
 const Gameboard = (function () {
@@ -32,17 +35,14 @@ const Gameboard = (function () {
     function Cell(row, column) {
         const location = `cell-${row}-${column}`;
         let token = ' ';
-        let isEmpty = true;
         
         const getToken = () => token;
 
-        //Called when an empty cell is clicked
         const updateToken = (playerToken) => {
             token = playerToken;
-            isEmpty = false;
         };
         
-        return {location, isEmpty, getToken, updateToken};
+        return {location, getToken, updateToken};
     };
 
     const initializeBoard = () => {
@@ -63,41 +63,85 @@ const Gameboard = (function () {
 
 const GameController = (function (player1, player2, rounds) {
     player1, player2, rounds
-    let turnPlayer = player1;
-    const boardController = Gameboard();
-    const board = boardController.board;
-    const emptyCells = boardController.getEmptyCells();
-    let round = 1;
-    let turn = 1;
-    let gameOver = false;
+    let turnPlayer = player1, boardController = Gameboard(), board = boardController.board, emptyCells = boardController.getEmptyCells();
+    let round = 1, turn = 1, moves = 1;
+    let roundOver = false;
 
     const getTurnPlayerToken = () => turnPlayer.getToken();
     const getTurnPlayerName = () => turnPlayer.getName();
     const promptTurnPlayer = () => turnPlayer.promptTurn();
-    const displayWinner = () => turnPlayer.winningMessage();
+    const displayWinner = () => turnPlayer.gameOverMessage();
     const getBoard = () => board;
 
-    const switchPlayer = () => {
-        turnPlayer = turnPlayer === player1 ? player2 : player1;
-    };
-
-    const dropToken = (row, column, player) => {
-        const cell = board[row][column];
-        if (cell.isEmpty) {
-            cell.updateToken(getTurnPlayerToken());
-            emptyCells.splice(emptyCells.indexOf(cell.location),1);
-            GameDOMController.displayBoard();
-            switchPlayer();
-            GameDOMController.promptTurnOutput();
-            return true        
+    const setTurnPlayer = (string) => {
+        if (string === 'switch') {
+            turnPlayer = turnPlayer === player1 ? player2 : player1;
         }
         else {
-            console.warn('IMPOSSIBLE MOVE!');
-            return false;
+            turnPlayer = player1;
         }
     };
 
-    return {getTurnPlayerToken, getTurnPlayerName, promptTurnPlayer, displayWinner, dropToken, getBoard, boardController};
+    const dropToken = (row, column) => {
+        const cell = board[row][column];
+        cell.updateToken(getTurnPlayerToken());
+        emptyCells.splice(emptyCells.indexOf(cell.location),1);
+    };
+
+    const checkBoardWinState = (player) => {
+        const win = player.getToken().repeat(3);
+        const horizontal1 = board[0][0].getToken() + board[0][1].getToken() + board[0][2].getToken();
+        const horizontal2 = board[1][0].getToken() + board[1][1].getToken() + board[1][2].getToken();
+        const horizontal3 = board[2][0].getToken() + board[2][1].getToken() + board[2][2].getToken();
+        const vertical1 = board[0][0].getToken() + board[1][0].getToken() + board[2][0].getToken();
+        const vertical2 = board[0][1].getToken() + board[1][1].getToken() + board[2][1].getToken();
+        const vertical3 = board[0][2].getToken() + board[1][2].getToken() + board[2][2].getToken();
+        const diagonal1 = board[0][0].getToken() + board[1][1].getToken() + board[2][2].getToken();
+        const diagonal2 = board[2][0].getToken() + board[1][1].getToken() + board[0][2].getToken();
+
+        if (win === horizontal1 
+            || win === horizontal2 
+            || win === horizontal3 
+            || win === vertical1
+            || win === vertical2
+            || win === vertical3
+            || win === diagonal1
+            || win === diagonal2) return player;
+
+        return false;
+    };
+
+    
+    const playTurn = (row, column) => {
+        dropToken(row, column);
+        console.log(`Turn: ${turn}`)
+        if (turn > 4) {            
+            if (checkBoardWinState(turnPlayer)) {
+                GameDOMController.displayOutput(displayWinner());
+                GameDOMController.displayInactiveBoard();
+                turn = 1;
+                setTurnPlayer('initial');
+                return
+            }
+            else {
+                if (turn >= 9) {
+                    GameDOMController.displayOutput(`The round is a tie!`);
+                    GameDOMController.displayInactiveBoard();
+                    turn = 1;
+                    setTurnPlayer('initial');
+                    return
+                } 
+            }
+        }
+        turn++;
+        setTurnPlayer('switch');
+        GameDOMController.displayOutput(promptTurnPlayer());
+        GameDOMController.displayActiveBoard();
+    };
+
+
+
+    return {getTurnPlayerToken, getTurnPlayerName, promptTurnPlayer, displayWinner, dropToken, getBoard, playTurn, boardController};
 });
 
 const GameDOMController = (function () {
@@ -114,14 +158,20 @@ const GameDOMController = (function () {
         return newBoard;
     };
 
-    const displayBoard = () => {
+    const displayActiveBoard = () => {
+        gameDisplay.classList.remove('inactive');
         gameDisplay.innerHTML = createBoardDisplay();
         const emptyCells = boardController.getEmptyCells();
         emptyCells.forEach(cell => {
             const cellDOM = document.querySelector(`#${cell}`);
             cellDOM.classList.add('clickable-cell');
-            cellDOM.addEventListener('click', () => game.dropToken(cellDOM.dataset.row,cellDOM.dataset.column,game.getTurnPlayerToken()));
+            cellDOM.addEventListener('click', () => game.playTurn(cellDOM.dataset.row,cellDOM.dataset.column));
         });
+    };
+
+    const displayInactiveBoard = () => {
+        gameDisplay.classList.add('inactive');
+        gameDisplay.innerHTML = createBoardDisplay();
     };
 
     const validateInputs = () => {
@@ -133,8 +183,8 @@ const GameDOMController = (function () {
         return true;
     };
 
-    const promptTurnOutput = () => {
-        output.textContent = game.promptTurnPlayer();
+    const displayOutput = (string) => {
+        output.textContent = string;
         output.hidden = false;
     };
 
@@ -147,11 +197,11 @@ const GameDOMController = (function () {
             boardController = game.boardController;
             board = boardController.board;
 
-            promptTurnOutput();
-            displayBoard();
+            displayOutput(game.promptTurnPlayer());
+            displayActiveBoard();
 
-            gameDisplay.classList.remove("inactive-game");
-            gameDisplay.classList.add("active-game");
+            gameDisplay.classList.remove("start-game");
+            gameDisplay.classList.add("game");
             newGameModal.close();
             gameDisplay.removeEventListener('click', displayNewGameSettings);
         }
@@ -169,6 +219,6 @@ const GameDOMController = (function () {
 
     displayNewGameScreen();
 
-    return {displayBoard, promptTurnOutput};
+    return {displayActiveBoard, displayInactiveBoard, displayOutput};
 })();
 
