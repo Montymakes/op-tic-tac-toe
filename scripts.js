@@ -1,6 +1,7 @@
 const gameDisplay = document.querySelector("#game-board");
 const newGameModal = document.querySelector("dialog");
 const startGameButton = document.querySelector("#activate-game");
+const restartGameButton = document.querySelector("#restart");
 const player1NameInput = document.querySelector("#player-1-name");
 const player2NameInput = document.querySelector("#player-2-name");
 const output = document.querySelector('#output');
@@ -112,7 +113,6 @@ const GameController = (function (player1, player2) {
     
     const playTurn = (row, column) => {
         dropToken(row, column);
-        console.log(`Turn: ${turn}`)
         if (turn > 4) {            
             if (checkBoardWinState(turnPlayer)) {
                 GameDOMController.displayOutput(displayWinner());
@@ -165,17 +165,18 @@ const GameDOMController = (function () {
             cellDOM.classList.add('clickable-cell');
             cellDOM.addEventListener('click', () => game.playTurn(cellDOM.dataset.row,cellDOM.dataset.column));
         });
+        restartGameButton.hidden = true;
     };
 
     const displayInactiveBoard = () => {
         gameDisplay.classList.add('inactive');
         gameDisplay.innerHTML = createBoardDisplay();
+        restartGameButton.hidden = false;
     };
 
     const validateInputs = () => {
         if (player1NameInput.value.length < 1 | player2NameInput.value.length < 1) {
             document.querySelector("#invalid-input").hidden = false;
-            console.warn('invalid input');
             return false;
         }
         return true;
@@ -214,6 +215,8 @@ const GameDOMController = (function () {
     const displayNewGameScreen = () => {
         gameDisplay.addEventListener("click", displayNewGameSettings);
     };
+
+    restartGameButton.addEventListener("click", displayNewGameSettings);
 
     displayNewGameScreen();
 
