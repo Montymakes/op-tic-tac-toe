@@ -5,7 +5,7 @@ Tic-Tac-Toe project from the Odin Project's JavaScript course.
 - [X] Build a game of tic-tac-toe that can be played via the console. There should be three objects for the player, game, and gameboard.
 - [X] Display the game in the DOM.
 - [X] Allow players to input names.
-- [ ] Allow players to start and end the game.
+- [ ] Allow players to start and restart the game.
 - [X] Display game results in DOM.
 
 # Bucket List
