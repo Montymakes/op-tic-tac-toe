@@ -3,7 +3,6 @@ const newGameModal = document.querySelector("dialog");
 const startGameButton = document.querySelector("#activate-game");
 const player1NameInput = document.querySelector("#player-1-name");
 const player2NameInput = document.querySelector("#player-2-name");
-const roundInput = document.querySelector('input[name="rounds"]');
 const output = document.querySelector('#output');
 /**
  * 
@@ -61,11 +60,10 @@ const Gameboard = (function () {
     return {Cell, getEmptyCells, board};
 });
 
-const GameController = (function (player1, player2, rounds) {
-    player1, player2, rounds
+const GameController = (function (player1, player2) {
+    player1, player2
     let turnPlayer = player1, boardController = Gameboard(), board = boardController.board, emptyCells = boardController.getEmptyCells();
-    let round = 1, turn = 1, moves = 1;
-    let roundOver = false;
+    let turn = 1;
 
     const getTurnPlayerToken = () => turnPlayer.getToken();
     const getTurnPlayerName = () => turnPlayer.getName();
@@ -125,7 +123,7 @@ const GameController = (function (player1, player2, rounds) {
             }
             else {
                 if (turn >= 9) {
-                    GameDOMController.displayOutput(`The round is a tie!`);
+                    GameDOMController.displayOutput(`It's a tie!`);
                     GameDOMController.displayInactiveBoard();
                     turn = 1;
                     setTurnPlayer('initial');
@@ -193,7 +191,7 @@ const GameDOMController = (function () {
 
         if (validateInputs()) {
             document.querySelector("#invalid-input").hidden = true;
-            game = GameController(Player('X', player1NameInput.value), Player('O', player2NameInput.value), Number(roundInput.checked.value));
+            game = GameController(Player('X', player1NameInput.value), Player('O', player2NameInput.value));
             boardController = game.boardController;
             board = boardController.board;
 
