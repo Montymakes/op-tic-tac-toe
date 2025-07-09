@@ -1,5 +1,6 @@
 const gameDisplay = document.querySelector("#game-board");
 const newGameModal = document.querySelector("dialog");
+const newGameScreenButton = document.querySelector("#start-button");
 const startGameButton = document.querySelector("#activate-game");
 const restartGameButton = document.querySelector("#restart");
 const player1NameInput = document.querySelector("#player-1-name");
@@ -211,14 +212,9 @@ const GameDOMController = (function () {
     });
 
     const displayNewGameSettings = () => newGameModal.showModal();
-
-    const displayNewGameScreen = () => {
-        gameDisplay.addEventListener("click", displayNewGameSettings);
-    };
-
+    
+    newGameScreenButton.addEventListener('click', displayNewGameSettings);
     restartGameButton.addEventListener("click", displayNewGameSettings);
-
-    displayNewGameScreen();
 
     return {displayActiveBoard, displayInactiveBoard, displayOutput};
 })();

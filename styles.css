@@ -1,9 +1,67 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
 body {
-    display: flex;
-    flex-direction: column;
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+body {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 150px 100px 620px 100px;
+    justify-items: center;
     align-items: center;
+
     font-size: 12px;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: #f5f8f9;
+    background: no-repeat 0% 10%/cover url('img/notebookbackground.jpg');
+    color: #1A1423;
+    height: 100vh;
+    width: 100vw;
 }
 
 ::backdrop {
@@ -24,28 +82,75 @@ dialog {
     height: 600px;
 }
 
+#heading {
+    width: 550px;
+    height: 80px;
+    background-color: #fff175a6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: skew(-20deg);
+}
+
 h1 {
-    font-size: 2.5rem;
+    font-size: 3.5rem;
+    font-family: 'Permanent Marker', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    grid-row: 1 / 2 ;
+    
 }
 
 #game-board {
     width: 600px;
     height: 600px;
+    grid-row: 3 / 4;
 }
 
 .start-game {
-    background-color: rgb(233, 194, 194);
-    border: 5px solid black;
+    padding: 2rem;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
+    flex-direction: column;
+    gap: 100px;
+    align-items: start;
+    font-size: 1.5rem;
+    font-family: 'Walter Turncoat', cursive;
 }
 
-.start-game:hover {
-    background-color: rgb(204, 75, 75);
-    color: white;
+h2 {
+    font-weight: normal;
+    font-size: 2rem;
+}
+
+#rules h2 {
+    margin-bottom: 20px;
+
+}
+
+#rules ol {
+    list-style: decimal;
+    list-style: inside;
+}
+
+#rules li {
+    margin-bottom: 20px;
+}
+
+#start-button {
+    border: 10px ridge #E40066;
+    border-radius: 10px;
+    background-color: white;
+    color: #E40066;
+    font-family: 'Rubik Bubbles';
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+}
+
+#start-button:hover {
+    background-color: #63A46C;
+    color: #1A1423;
     cursor: pointer;
+    border-color: #1A1423;
 }
 
 .game {
@@ -56,7 +161,7 @@ h1 {
 }
 
 .game-cell {
-    background-color: white;
+    background-color: #f5f8f9;
     width: 196.67px;
     height: 196.67px;
     display: flex;
@@ -81,4 +186,13 @@ h1 {
 
 #output {
     font-size: 1rem;
+}
+
+#restart {
+    width: 150px;
+    height: 60px;
+    border-radius: 20px;
+    border: none;
+    background-color: #E40066;
+    grid-row: 5 / 6;
 }

@@ -11,3 +11,8 @@ Tic-Tac-Toe project from the Odin Project's JavaScript course.
 # Bucket List
 - [ ] Allow players to set total rounds per game.
 - [ ] Keep track of score across rounds.
+
+# Sources
+Main Background Image: Photo by [Heather Green](https://unsplash.com/@heathergreengreen?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/a-piece-of-lined-paper-with-red-lines-hKfKmfvPY44?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash).
+
+Start Game Background: Image by [Gerd Altmann](https://pixabay.com/users/geralt-9301/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=2470298) from [Pixabay](https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=2470298)
