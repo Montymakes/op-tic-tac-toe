@@ -1,3 +1,6 @@
+/* 
+    CSS  RESET
+*/
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
@@ -34,19 +37,11 @@ body {
 ol, ul {
 	list-style: none;
 }
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
 
+
+/*
+    ROOT 
+ */
 
 body {
     display: grid;
@@ -64,23 +59,96 @@ body {
     width: 100vw;
 }
 
+input:hover, button:hover {
+    cursor: pointer;
+}
+
+/* 
+    Dialog
+ */
+
 ::backdrop {
-    background-image: linear-gradient(
-        45deg,
-        magenta,
-        rebeccapurple,
-        dodgerblue,
-        green
-      );
+    background-color: #63A46C;
+    background-image: radial-gradient(
+        circle,
+        rgba(240, 183, 179, 1) 0%, 
+        rgba(99, 164, 108, 1) 100%);
       opacity: 1;
 }
 
 dialog {
+    background-color: #f5f8f9;
+    border: 5px outset #E40066;
     font-size: 1rem;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    width:600px;
-    height: 600px;
+    font-family: 'Walter Turncoat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: #1A1423;
+    width: 400px;
+    height: 240px;
 }
+
+#dialog-wrapper {
+    display: flex;
+    gap: 1.5rem;
+    flex-direction: column;
+}
+
+dialog h1 {
+    font-size: 2.5rem;
+}
+
+#new-game-form {
+    display: flex;
+    font-size: 1.5rem;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+#new-game-form label {
+    float: left;
+}
+
+#new-game-form input[type="text"] {
+    border: none;
+    border-bottom: #1A1423 solid 2px;
+    border-radius: 20px;
+    background-color: #f5f8f9;
+    float: right;
+    width: 250px;
+    height: 24px;
+    font-family: inherit;
+    font-size: 1rem;
+    text-align: center;
+}
+
+#new-game-form input[type="text"]::placeholder {
+    font-family: 'Walter Turncoat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: center;
+}
+
+#new-game-form input[type="text"]:hover {
+    background-color: #FFF275;
+} 
+
+#activate-game {
+    border: none;
+    background: none;
+    width: 150px;
+    height: 60px;
+    font-family: inherit;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    align-self: center;
+}
+
+#activate-game:hover {
+    background-color: #FFF275;
+    transform: skew(-20deg);
+}
+
+/* 
+    Landing Page
+ */
 
 #heading {
     width: 550px;
@@ -92,11 +160,10 @@ dialog {
     transform: skew(-20deg);
 }
 
-h1 {
+#heading h1 {
     font-size: 3.5rem;
     font-family: 'Permanent Marker', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     grid-row: 1 / 2 ;
-    
 }
 
 #game-board {
@@ -115,14 +182,10 @@ h1 {
     font-family: 'Walter Turncoat', cursive;
 }
 
-h2 {
+#rules h2 {
     font-weight: normal;
     font-size: 2rem;
-}
-
-#rules h2 {
     margin-bottom: 20px;
-
 }
 
 #rules ol {
@@ -143,15 +206,17 @@ h2 {
     font-size: 2rem;
     display: flex;
     align-items: center;
-    z-index: 1;
 }
 
 #start-button:hover {
     background-color: #63A46C;
     color: #1A1423;
-    cursor: pointer;
     border-color: #1A1423;
 }
+
+/* 
+    Game Page
+ */
 
 .game {
     display: grid;

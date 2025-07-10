@@ -25,26 +25,31 @@
                 <li>If the board is full, the game ends in a tie.</li>
             </ol>
         </div>
-        <button id="start-button">
+        <button id="start-button" name="start">
             <h3>START GAME</h3>
             <img src="img/play_arrow.svg" alt="Play Arrow Icon">
         </button>
     </main>
-    <button hidden id="restart">Play Again</button>
+    <button hidden id="restart" name="play again">Play Again</button>
     <dialog>
-        <h3>Game Settings</h3>
-        <span hidden id="invalid-input">Please fill out the player name fields!</span>
-        <form id="new-game-form">
-            <p>
-                <label for="player-1-name">Player 1:</label>
-                <input type="text" minlength="1" placeholder="Player 1's Name" id="player-1-name" name="player-1-name" required autofocus/>
-            </p>
-            <p>
-                <label for="player-2-name">Player 2:</label>
-                <input type="text" minlength="1" placeholder="Player 2's Name" id="player-2-name" name="player-2-name" required/>
-            </p>
-            <button id="activate-game">Start Game</buton>
-        </form>
+        <div id="dialog-wrapper">
+            <h1>Game Settings</h1>
+            <span hidden id="invalid-input">Please fill out the player name fields!</span>
+            <form id="new-game-form">
+                <p>
+                    <label for="player-1-name">Player 1:</label>
+                    <input type="text" minlength="1" placeholder="Player 1's Name" id="player-1-name" name="player-1-name" required autofocus/>
+                </p>
+                <p>
+                    <label for="player-2-name">Player 2:</label>
+                    <input type="text" minlength="1" placeholder="Player 2's Name" id="player-2-name" name="player-2-name" required/>
+                </p>
+                <button id="activate-game" name="next">
+                    <h3>NEXT</h3>
+                    <img src="img/play_arrow.svg" alt="Play Arrow Icon">
+                </buton>
+            </form>
+        </div>
     </dialog>
     <script src="scripts.js"></script>
 </body>
